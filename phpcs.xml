@@ -1,65 +1,33 @@
 <?xml version="1.0"?>
 <ruleset name="ModernArchitect-Minimal">
-    <description>Minimal checks: Security only, ignore everything else</description>
-
-    <!-- Scan PHP files only -->
+    <description>Minimal checks: Security only, ignore all style errors</description>
+    
     <arg name="extensions" value="php"/>
     <arg name="colors"/>
-    <arg value="s"/> <!-- Show progress -->
-
-    <!-- Exclude vendor and node_modules -->
+    <arg value="s"/>
+    
     <exclude-pattern>*/vendor/*</exclude-pattern>
     <exclude-pattern>*/node_modules/*</exclude-pattern>
 
-    <!-- Load WordPress standard but disable 99% of it -->
+    <!-- Load WordPress standard but disable styling/formatting categories -->
     <rule ref="WordPress">
-        <!-- ✅ DISABLE ALL NAMING CONVENTIONS -->
         <exclude name="WordPress.NamingConventions" />
         <exclude name="WordPress.Files.FileName" />
         <exclude name="WordPress.PHP.DontExtract" />
-        
-        <!-- ✅ DISABLE ALL WHITESPACE/INDENTATION CHECKS -->
         <exclude name="Generic.WhiteSpace" />
         <exclude name="Squiz.WhiteSpace" />
         <exclude name="WordPress.WhiteSpace" />
         <exclude name="PEAR.WhiteSpace" />
-        <exclude name="PSR2.ControlStructures.ControlStructureSpacing" />
-        <exclude name="WordPress.Arrays.ArrayDeclarationSpacing" />
-        <exclude name="WordPress.Arrays.MultipleStatementAlignment" />
-        
-        <!-- ✅ DISABLE ARRAY SYNTAX CHECKS (allow short []) -->
-        <exclude name="Generic.Arrays.DisallowShortArraySyntax" />
-        <exclude name="WordPress.Arrays.ArrayKeySpacingRestrictions" />
-        
-        <!-- ✅ DISABLE COMMENT/DOC CHECKS -->
+        <exclude name="WordPress.Arrays" />
         <exclude name="Squiz.Commenting" />
-        <exclude name="WordPress Docs" />
         <exclude name="Generic.Commenting" />
-        
-        <!-- ✅ DISABLE CONTROL STRUCTURE FORMATTING -->
-        <exclude name="Squiz.ControlStructures.ControlSignature" />
-        <exclude name="WordPress.ControlStructures" />
+        <exclude name="Squiz.ControlStructures" />
         <exclude name="Generic.ControlStructures" />
-        
-        <!-- ✅ DISABLE FUNCTION/CALL FORMATTING -->
-        <exclude name="WordPress.PHP.DisallowShortTernary" />
-        <exclude name="Generic.Functions.FunctionCallArgumentSpacing" />
         <exclude name="WordPress.PHP.YodaConditions" />
     </rule>
 
-    <!-- 🔥 ONLY KEEP THESE 3 SECURITY RULES (NON-NEGOTIABLE) -->
-    <rule ref="WordPress.Security.EscapeOutput">
-        <severity>5</severity>
-    </rule>
-    <rule ref="WordPress.Security.NonceVerification">
-        <severity>5</severity>
-    </rule>
-    <rule ref="WordPress.Security.ValidatedSanitizedInput">
-        <severity>5</severity>
-    </rule>
-
-    <!-- Allow short array syntax explicitly -->
-    <rule ref="Generic.Arrays.DisallowShortArraySyntax">
-        <severity>0</severity>
-    </rule>
+    <!-- 🔒 ONLY KEEP THESE 3 SECURITY RULES -->
+    <rule ref="WordPress.Security.EscapeOutput" />
+    <rule ref="WordPress.Security.NonceVerification" />
+    <rule ref="WordPress.Security.ValidatedSanitizedInput" />
 </ruleset>
