@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="ModernArchitect-CI">
-    <description>CI config: Ignore ALL style/formatting, check ONLY critical security.</description>
+    <description>CI-friendly: Ignores ALL style/formatting, keeps ONLY critical security.</description>
     
     <arg name="extensions" value="php"/>
     <arg name="colors"/>
@@ -11,7 +11,7 @@
 
     <!-- Load WordPress standard but disable 99.9% of it -->
     <rule ref="WordPress">
-        <!-- 🔥 TẮT TOÀN BỘ whitespace/indentation -->
+        <!-- 🔥 TẮT TOÀN BỘ WHITESPACE/INDENTATION -->
         <exclude name="Generic.WhiteSpace"/>
         <exclude name="Squiz.WhiteSpace"/>
         <exclude name="WordPress.WhiteSpace"/>
@@ -36,35 +36,25 @@
         <exclude name="WordPress.Arrays"/>
         <exclude name="Generic.Formatting.MultipleStatementAlignment"/>
         
-        <!-- 🔥 TẮT rule về naming conventions -->
+        <!-- 🔥 TẮT rule về naming & comment -->
         <exclude name="WordPress.NamingConventions"/>
         <exclude name="WordPress.Files.FileName"/>
-        <exclude name="Universal.NamingConventions.NoReservedKeywordParameterNames"/>
-        
-        <!-- 🔥 TẮT rule về comment/docblock -->
         <exclude name="Squiz.Commenting"/>
         <exclude name="Generic.Commenting"/>
-        <exclude name="WordPress Docs"/>
         <exclude name="WordPress.WP.I18n"/>
-        
-        <!-- 🔥 TẮT các cảnh báo misc -->
-        <exclude name="Generic.CodeAnalysis.UnusedFunctionParameter"/>
-        <exclude name="WordPress.DB"/>
-        <exclude name="WordPress.DateTime"/>
         <exclude name="WordPress.PHP.YodaConditions"/>
         <exclude name="WordPress.PHP.DontExtract"/>
+        <exclude name="Generic.CodeAnalysis.UnusedFunctionParameter"/>
+        <exclude name="WordPress.DateTime"/>
+        <exclude name="WordPress.DB"/>
         
-        <!-- 🔥 QUAN TRỌNG: Cho phép output biến đã được escape trước đó -->
+        <!-- 🔥 QUAN TRỌNG: Cho phép output biến đã escape trước đó -->
         <!-- Fix lỗi giả: "found '$safe_image_url'" -->
         <exclude name="WordPress.Security.EscapeOutput.OutputNotEscaped"/>
+        <exclude name="WordPress.Security.ValidatedSanitizedInput.MissingUnslash"/>
     </rule>
 
-    <!-- 🔒 GIỮ LẠI 2 RULE BẢO MẬT CỐT LÕI (ngăn XSS & CSRF) -->
+    <!-- 🔒 CHỈ GIỮ LẠI 2 RULE BẢO MẬT QUAN TRỌNG NHẤT -->
     <rule ref="WordPress.Security.EscapeOutput"/>
     <rule ref="WordPress.Security.NonceVerification"/>
-    
-    <!-- Giảm severity của MissingUnslash (chấp nhận $_POST thô trong context an toàn) -->
-    <rule ref="WordPress.Security.ValidatedSanitizedInput.MissingUnslash">
-        <severity>0</severity>
-    </rule>
 </ruleset>
