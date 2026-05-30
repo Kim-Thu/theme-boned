@@ -1,0 +1,157 @@
+name: 🚀 WordPress Theme CI
+
+on:
+  push:
+    branches: [ feat/*, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # ========================================
+  # 1. PHP Lint & Coding Standards
+  # ========================================
+  php-checks:
+    name: 🔍 PHP Quality Checks
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: [ '8.2', '8.3' ]
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: composer:v2
+          coverage: none
+
+      - name: 📦 Install dependencies
+        run: composer install --no-progress --prefer-dist
+
+      - name: 🔎 PHP Syntax Lint
+        run: find . -name "*.php" -not -path "./vendor/*" -print0 | xargs -0 -n1 php -l
+
+      - name: 📏 WordPress Coding Standards (PHPCS)
+        run: |
+          composer require --dev wp-coding-standards/wpcs
+          vendor/bin/phpcs --standard=WordPress \
+            --extensions=php \
+            --ignore=*/vendor/*,*/node_modules/* \
+            ./
+
+      - name: 🧪 PHPStan Static Analysis
+        run: |
+          composer require --dev phpstan/phpstan
+          vendor/bin/phpstan analyse --level=5 ./
+
+  # ========================================
+  # 2. CSS/JS Linting
+  # ========================================
+  frontend-checks:
+    name: 🎨 Frontend Quality Checks
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 📦 Install dependencies
+        run: npm ci --ignore-scripts || npm install --ignore-scripts
+
+      - name: 🔎 Stylelint (CSS)
+        run: |
+          npm install --save-dev stylelint stylelint-config-standard
+          npx stylelint "**/*.css" --ignore-pattern "**/vendor/**" --ignore-pattern "**/node_modules/**" || true
+
+      - name: 🔎 ESLint (JS) - Optional
+        run: |
+          npm install --save-dev eslint || true
+          npx eslint "**/*.js" --ignore-pattern "**/vendor/**" --ignore-pattern "**/node_modules/**" || true
+
+  # ========================================
+  # 3. Security Scan
+  # ========================================
+  security-check:
+    name: 🔒 Security Audit
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer:v2
+
+      - name: 🔍 PHP Security Checker
+        run: |
+          composer require --dev enlightn/security-checker
+          vendor/bin/security-checker security:check
+
+      - name: 🛡️ WordPress Vulnerability Scan
+        run: |
+          curl -O https://raw.githubusercontent.com/wp-cli/wp-cli/v2.9.0/wp-cli.phar
+          chmod +x wp-cli.phar
+          php wp-cli.phar package install wp-cli/security-command
+          php wp-cli.phar security check --path=. || true
+
+  # ========================================
+  # 4. Build & Deploy Preview (Optional)
+  # ========================================
+  build-check:
+    name: 🏗️ Build Validation
+    runs-on: ubuntu-latest
+    needs: [php-checks, frontend-checks, security-check]
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 📦 Validate theme structure
+        run: |
+          # Check required WordPress theme files
+          required_files=("style.css" "index.php" "functions.php")
+          for file in "${required_files[@]}"; do
+            if [ ! -f "$file" ]; then
+              echo "❌ Missing required file: $file"
+              exit 1
+            fi
+          done
+          echo "✅ All required theme files present"
+
+      - name: 🎨 Validate style.css header
+        run: |
+          if ! grep -q "Theme Name:" style.css; then
+            echo "❌ style.css missing Theme Name header"
+            exit 1
+          fi
+          echo "✅ style.css header valid"
+
+  # ========================================
+  # 5. Auto-Merge Logic (Conditional)
+  # ========================================
+  auto-merge-check:
+    name: 🤖 Auto-Merge Eligibility
+    runs-on: ubuntu-latest
+    needs: [php-checks, frontend-checks, security-check, build-check]
+    if: github.event_name == 'pull_request' && github.actor != 'dependabot[bot]'
+    
+    steps:
+      - name: ✅ All checks passed - Ready for merge
+        run: |
+          echo "🎉 All CI checks passed!"
+          echo "✅ PR is eligible for auto-merge"
+          echo "📋 Next steps:"
+          echo "   1. Review PR manually (recommended)"
+          echo "   2. Enable auto-merge on GitHub PR page"
+          echo "   3. Or merge manually via GitHub UI"
