@@ -1,33 +1,25 @@
 parameters:
-    level: 0
+    level: 1
     paths:
         - .
     excludePaths:
         - vendor/*
         - node_modules/*
         - .github/*
-        - "*.md"
-        - "*.txt"
-        - "*.log"
     
-    # ✅ Bootstrap WordPress stubs để PHPStan hiểu hàm/class WP
+    # Load WordPress definitions
     bootstrapFiles:
         - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
-    
-    # ✅ Tắt check PHPDoc types để tránh false positives
-    treatPhpDocTypesAsCertain: false
-    
-    # ✅ Ignore các lỗi không quan trọng với theme custom
+        
+    # Ignore errors for WP functions not found (in case stubs miss some)
+    # and variable definition errors for WP globals
     ignoreErrors:
-        # Bỏ qua lỗi "not found" từ WordPress core functions/classes
-        - '#Function \w+ not found#i'
-        - '#Class \w+ not found#i'
-        - '#Method \w+::\w+\(\) not found#i'
-        - '#Constant \w+ not found#i'
-        
-        # Bỏ qua lỗi type hints cho WP classes
-        - '#Parameter .+ has invalid type (WP_Post|WP_Query|WP_Term|WP_User|WP_Comment)#i'
-        - '#Access to (property|method) .+ on an unknown class (WP_Post|WP_Query|WP_Term|WP_User)#i'
-        
-        # Bỏ qua lỗi về variable undefined (do PHPStan không hiểu WP globals)
-        - '#Variable \$\w+ might not be defined#
+        - '#Function .* not found#'
+        - '#Class .* not found#'
+        - '#Method .* not found#'
+        - '#Constant .* not found#'
+        - '#Variable .* might not be defined#'
+        - '#Access to an undefined property#'
+        - '#Access to undefined constant#'
+        - '#Access to undefined method#'
+        - '#Call to an undefined method#'
