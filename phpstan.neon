@@ -2,24 +2,13 @@ parameters:
     level: 1
     paths:
         - .
+
     excludePaths:
         - vendor/*
         - node_modules/*
         - .github/*
-    
-    # Load WordPress definitions
+
     bootstrapFiles:
         - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
-        
-    # Ignore errors for WP functions not found (in case stubs miss some)
-    # and variable definition errors for WP globals
-    ignoreErrors:
-        - '#Function .* not found#'
-        - '#Class .* not found#'
-        - '#Method .* not found#'
-        - '#Constant .* not found#'
-        - '#Variable .* might not be defined#'
-        - '#Access to an undefined property#'
-        - '#Access to undefined constant#'
-        - '#Access to undefined method#'
-        - '#Call to an undefined method#'
+
+    reportUnmatchedIgnoredErrors: false
