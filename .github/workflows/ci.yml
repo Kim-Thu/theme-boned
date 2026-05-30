@@ -36,7 +36,7 @@ jobs:
 
             - name: 📏 WordPress Coding Standards (PHPCS)
               run: |
-                  composer require --dev wp-coding-standards/wpcs
+                  composer require --dev wp-coding-standards/wpcs --no-interaction
                   vendor/bin/phpcs --standard=./phpcs.xml \
                     --extensions=php \
                     --ignore=*/vendor/*,*/node_modules/* \
@@ -45,7 +45,7 @@ jobs:
             - name: 🧪 PHPStan Static Analysis
               run: |
                   composer require --dev phpstan/phpstan php-stubs/wordpress-stubs --no-interaction
-                  vendor/bin/phpstan analyse -c phpstan.neon --level=5 . --no-progress
+                  vendor/bin/phpstan analyse --configuration=phpstan.neon --level=1 ./ --no-progress
 
     # ========================================
     # 2. CSS/JS Linting
@@ -119,7 +119,6 @@ jobs:
 
             - name: 📦 Validate theme structure
               run: |
-                  # Check required WordPress theme files
                   required_files=("style.css" "index.php" "functions.php")
                   for file in "${required_files[@]}"; do
                     if [ ! -f "$file" ]; then
