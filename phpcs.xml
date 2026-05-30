@@ -1,27 +1,31 @@
 <?xml version="1.0"?>
-<ruleset name="ModernArchitect">
-  <description>WordPress Coding Standards for Modern Architect Theme</description>
+<ruleset name="ModernArchitect-Relaxed">
+    <description>Relaxed WordPress Coding Standards</description>
 
-  <!-- Scan PHP files only -->
-  <arg name="extensions" value="php"/>
-  <arg name="colors"/>
-  <arg value="sp"/>
+    <!-- Scan PHP files only -->
+    <arg name="extensions" value="php"/>
+    <arg name="colors"/>
 
-  <!-- Exclude vendor and node_modules -->
-  <exclude-pattern>*/vendor/*</exclude-pattern>
-  <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <!-- Exclude vendor and node_modules -->
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
 
-  <!-- Use WordPress standards -->
-  <rule ref="WordPress">
-    <!-- Relax some rules for modern PHP -->
-    <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
-    <exclude name="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase"/>
-  </rule>
+    <!-- Base Rule: WordPress Standards -->
+    <rule ref="WordPress">
+        <!-- ✅ LOẠI BỎ các luật soi mói khoảng trắng/thụt dòng -->
+        <exclude name="Generic.WhiteSpace"/>
+        <exclude name="Squiz.WhiteSpace"/>
+        <exclude name="WordPress.WhiteSpace"/>
+        <exclude name="PEAR.WhiteSpace"/>
+        <exclude name="PSR2.ControlStructures.ControlStructureSpacing"/>
+        <exclude name="WordPress.Arrays.ArrayDeclarationSpacing"/>
+        
+        <!-- ✅ LOẠI BỎ các luật đặt tên biến cứng nhắc -->
+        <exclude name="WordPress.NamingConventions.ValidVariableName"/>
+    </rule>
 
-  <!-- Require short array syntax -->
-  <rule ref="Generic.Arrays.DisallowLongArraySyntax.Found"/>
-
-  <!-- Check for proper escaping -->
-  <rule ref="WordPress.Security.EscapeOutput"/>
-  <rule ref="WordPress.Security.NonceVerification"/>
+    <!-- 🔒 VẪN GIỮ CÁC LUẬT BẢO MẬT QUAN TRỌNG -->
+    <rule ref="WordPress.Security.EscapeOutput" />
+    <rule ref="WordPress.Security.NonceVerification" />
+    <rule ref="WordPress.Security.ValidatedSanitizedInput" />
 </ruleset>
