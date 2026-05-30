@@ -37,7 +37,7 @@ jobs:
             - name: 📏 WordPress Coding Standards (PHPCS)
               run: |
                   composer require --dev wp-coding-standards/wpcs
-                  vendor/bin/phpcs --standard=phpcs.xml \
+                  vendor/bin/phpcs --standard=./phpcs.xml \
                     --extensions=php \
                     --ignore=*/vendor/*,*/node_modules/* \
                     ./
