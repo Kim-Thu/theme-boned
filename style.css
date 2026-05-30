@@ -1,0 +1,182 @@
+/*
+ * Theme Name:       Modern Architect Child Theme
+ * Theme URI:        https://example.com/modern-architect-child
+ * Description:      Child theme for Modern Architect - demonstrates easy customization
+ * Author:           Your Name
+ * Template:         modern-architect
+ * Version:          1.0.0
+ * Requires at least: 6.4
+ * Requires PHP:      8.2
+ * License:          GPL v2 or later
+ * License URI:      https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:      modern-architect-child
+ */
+
+/**
+ * ========================================
+ * CHILD THEME CUSTOMIZATION
+ * ========================================
+ * 
+ * This file demonstrates how to override
+ * the parent theme's design tokens WITHOUT
+ * recompiling any CSS. Simply modify the
+ * CSS variables below.
+ * 
+ * All changes here will cascade through
+ * the entire theme automatically.
+ */
+
+:root {
+  /* ========================================
+   * OVERRIDE COLOR PALETTE
+   * Change brand colors instantly
+   * ======================================== */
+  
+  /* Custom Primary Color (Purple instead of Blue) */
+  --color-primary-h: 270;
+  --color-primary-s: 70%;
+  --color-primary-l: 55%;
+  
+  /* Custom Secondary Color */
+  --color-secondary: #8b5cf6;
+  
+  /* Custom Accent Color */
+  --color-accent: #f43f5e;
+  
+  /* Override background colors */
+  --color-bg-surface: #fafafa;
+}
+
+/* Dark mode overrides */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg-body: #1a1a2e;
+    --color-bg-surface: #16213e;
+    --color-text-main: #eaeaea;
+    --color-border: #404060;
+  }
+}
+
+/* ========================================
+ * OVERRIDE TYPOGRAPHY
+ * Change fonts across entire site
+ * ======================================== */
+:root {
+  /* Use different font family */
+  --font-family-base: 'Poppins', system-ui, -apple-system, sans-serif;
+  --font-family-heading: 'Playfair Display', serif;
+  
+  /* Adjust font sizes */
+  --font-size-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --font-size-xl: clamp(1.75rem, 1.5rem + 1.25vw, 2.5rem);
+}
+
+/* ========================================
+ * OVERRIDE SPACING
+ * Adjust spacing scale
+ * ======================================== */
+:root {
+  --space-4: 1.25rem;  /* 20px instead of 16px */
+  --space-6: 1.75rem;  /* 28px instead of 24px */
+  --space-8: 2.5rem;   /* 40px instead of 32px */
+}
+
+/* ========================================
+ * OVERRIDE BORDER RADIUS
+ * Change from rounded to square corners
+ * ======================================== */
+:root {
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+}
+
+/* ========================================
+ * CUSTOM COMPONENT STYLES
+ * Add new styles or override existing
+ * ======================================== */
+
+/* Make cards more prominent */
+.card {
+  border-width: 2px;
+  box-shadow: var(--shadow-md);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Custom button style */
+.btn--primary {
+  background-image: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-primary-hover)
+  );
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.btn--primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(126, 87, 194, 0.4);
+}
+
+/* Featured card with gradient background */
+.card--featured {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-primary), transparent 95%),
+    color-mix(in srgb, var(--color-accent), transparent 95%)
+  );
+  border-color: var(--color-primary);
+}
+
+/* Custom container max-width */
+.container {
+  max-width: 1400px;
+}
+
+/* ========================================
+ * ADD NEW CUSTOM CLASSES
+ * ======================================== */
+
+/* Gradient text utility */
+.text-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    var(--color-accent)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glassmorphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@media (prefers-color-scheme: dark) {
+  .glass {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Custom section padding */
+.section-custom {
+  padding: var(--space-20) 0;
+}
+
+@media (max-width: 768px) {
+  .section-custom {
+    padding: var(--space-12) 0;
+  }
+}

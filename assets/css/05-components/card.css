@@ -1,0 +1,291 @@
+/**
+ * Card Component - BEM + CSS Variables
+ * 
+ * Features:
+ * - Responsive layout
+ * - Multiple variants (default, featured, horizontal)
+ * - Hover effects
+ * - Image support with aspect ratio
+ * - Accessible structure
+ */
+
+/* ========================================
+ * BASE CARD STYLES
+ * ======================================== */
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg-body);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: var(--transition-base);
+  height: 100%;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+  border-color: var(--color-primary-light);
+}
+
+/* ========================================
+ * CARD MEDIA
+ * ======================================== */
+.card__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background-color: var(--color-bg-surface);
+}
+
+.card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.card:hover .card__image {
+  transform: scale(1.05);
+}
+
+/* ========================================
+ * CARD BODY
+ * ======================================== */
+.card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--space-6);
+  gap: var(--space-4);
+}
+
+/* ========================================
+ * CARD TITLE
+ * ======================================== */
+.card__title {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-main);
+}
+
+.card__link {
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition-base);
+}
+
+.card__link:hover {
+  color: var(--color-primary);
+}
+
+.card__link:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ========================================
+ * CARD CONTENT
+ * ======================================== */
+.card__content {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-muted);
+  flex: 1;
+}
+
+/* ========================================
+ * CARD FOOTER
+ * ======================================== */
+.card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-top: var(--space-4);
+  margin-top: auto;
+  border-top: 1px solid var(--color-border-light);
+}
+
+.card__button {
+  align-self: flex-start;
+}
+
+/* ========================================
+ * CARD META INFORMATION
+ * ======================================== */
+.card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.card__date,
+.card__author,
+.card__category {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.card__category-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+}
+
+.card__category-link:hover {
+  text-decoration: underline;
+}
+
+/* ========================================
+ * CARD VARIANTS
+ * ======================================== */
+
+/* Featured Card */
+.card--featured {
+  border-width: 2px;
+  border-color: var(--color-primary);
+  background-color: color-mix(in srgb, var(--color-primary), transparent 97%);
+}
+
+.card--featured .card__title {
+  font-size: var(--font-size-xl);
+}
+
+/* Horizontal Card */
+.card--horizontal {
+  flex-direction: row;
+}
+
+.card--horizontal .card__media {
+  width: 40%;
+  aspect-ratio: 4 / 3;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .card--horizontal {
+    flex-direction: column;
+  }
+  
+  .card--horizontal .card__media {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* Minimal Card */
+.card--minimal {
+  border: none;
+  box-shadow: none;
+}
+
+.card--minimal:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Compact Card */
+.card--compact .card__body {
+  padding: var(--space-4);
+  gap: var(--space-2);
+}
+
+.card--compact .card__title {
+  font-size: var(--font-size-base);
+}
+
+/* ========================================
+ * CARD WITH BADGE
+ * ======================================== */
+.card__badge {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  background-color: var(--color-primary);
+  border-radius: var(--radius-sm);
+  z-index: 1;
+}
+
+.card__badge--success {
+  background-color: var(--color-success);
+}
+
+.card__badge--warning {
+  background-color: var(--color-warning);
+}
+
+.card__badge--error {
+  background-color: var(--color-error);
+}
+
+/* ========================================
+ * CARD SKELETON LOADING STATE
+ * ======================================== */
+.card--skeleton {
+  pointer-events: none;
+}
+
+.card--skeleton .card__media,
+.card--skeleton .card__title,
+.card--skeleton .card__content {
+  background: linear-gradient(
+    90deg,
+    var(--color-border-light) 25%,
+    var(--color-border) 50%,
+    var(--color-border-light) 75%
+  );
+  background-size: 200% 100%;
+  animation: card-skeleton-loading 1.5s infinite;
+  border-radius: var(--radius-md);
+}
+
+.card--skeleton .card__media {
+  aspect-ratio: 16 / 9;
+}
+
+.card--skeleton .card__title {
+  height: 1.5em;
+  margin-bottom: var(--space-2);
+}
+
+.card--skeleton .card__content {
+  height: 4em;
+}
+
+@keyframes card-skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ========================================
+ * DARK MODE ADJUSTMENTS
+ * ======================================== */
+
+@media (prefers-color-scheme: dark) {
+  .card--featured {
+    background-color: color-mix(in srgb, var(--color-primary), transparent 95%);
+  }
+  
+  .card:hover {
+    border-color: var(--color-primary);
+  }
+}
