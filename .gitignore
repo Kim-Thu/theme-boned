@@ -1,5 +1,17 @@
-# Dependencies
+# Composer dependencies
+vendor/
+
+# Node modules
 node_modules/
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Dependencies
 venv/
 .venv/
 __pycache__/
@@ -9,6 +21,7 @@ dist/
 build/
 target/
 .gradle/
+
 
 # Editors
 .vscode/

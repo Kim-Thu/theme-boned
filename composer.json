@@ -1,0 +1,32 @@
+{
+	"name": "kim-thu/modern-architect",
+	"description": "Modern WordPress Theme with OOP/SOLID architecture",
+	"type": "wordpress-theme",
+	"license": "GPL-2.0-or-later",
+	"authors": [
+		{
+			"name": "Kim-Thu",
+			"homepage": "https://github.com/Kim-Thu"
+		}
+	],
+	"require": {
+		"php": ">=8.2"
+	},
+	"require-dev": {
+		"wp-coding-standards/wpcs": "^3.0",
+		"phpstan/phpstan": "^1.10",
+		"enlightn/security-checker": "^1.10",
+		"phpunit/phpunit": "^10.0"
+	},
+	"scripts": {
+		"lint": "phpcs --standard=phpcs.xml",
+		"lint-fix": "phpcbf --standard=phpcs.xml",
+		"test": "phpstan analyse --level=5",
+		"security": "security-checker security:check"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	}
+}
