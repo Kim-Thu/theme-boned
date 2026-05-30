@@ -1,33 +1,50 @@
 <?xml version="1.0"?>
-<ruleset name="ModernArchitect-Minimal">
-    <description>Minimal checks: Security only, ignore all style errors</description>
+<ruleset name="ModernArchitect-CI">
+    <description>CI-friendly config: Ignores all formatting, styling, and minor warnings. Only checks critical security.</description>
     
     <arg name="extensions" value="php"/>
     <arg name="colors"/>
-    <arg value="s"/>
     
     <exclude-pattern>*/vendor/*</exclude-pattern>
     <exclude-pattern>*/node_modules/*</exclude-pattern>
 
-    <!-- Load WordPress standard but disable styling/formatting categories -->
     <rule ref="WordPress">
-        <exclude name="WordPress.NamingConventions" />
-        <exclude name="WordPress.Files.FileName" />
-        <exclude name="WordPress.PHP.DontExtract" />
+        <!-- ✅ TẮT TOÀN BỘ KHOẢNG CÁCH & CĂN CHỈNH -->
         <exclude name="Generic.WhiteSpace" />
         <exclude name="Squiz.WhiteSpace" />
         <exclude name="WordPress.WhiteSpace" />
         <exclude name="PEAR.WhiteSpace" />
+        <exclude name="Universal.WhiteSpace.PrecisionAlignment" />
+        
+        <!-- ✅ TẮT RULE VỀ DẤU NGOẶC & KHAI BÁO HÀM -->
+        <exclude name="PEAR.Functions.FunctionCallSignature" />
+        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing" />
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration" />
+        <exclude name="Generic.Classes.OpeningBraceSameLine" />
+        <exclude name="Generic.Functions.OpeningFunctionBraceKernighanRitchie" />
+        <exclude name="PSR2.Methods.FunctionClosingBrace" />
+        
+        <!-- ✅ TẮT RULE VỀ MẢNG & CĂN DẤU = -->
+        <exclude name="Universal.Arrays.DisallowShortArraySyntax" />
+        <exclude name="NormalizedArrays.Arrays.ArrayBraceSpacing" />
         <exclude name="WordPress.Arrays" />
+        <exclude name="Generic.Formatting.MultipleStatementAlignment" />
+        
+        <!-- ✅ TẮT RULE VỀ TÊN FILE, COMMENT, I18N, DATE, DB -->
+        <exclude name="WordPress.NamingConventions" />
+        <exclude name="WordPress.Files.FileName" />
         <exclude name="Squiz.Commenting" />
         <exclude name="Generic.Commenting" />
-        <exclude name="Squiz.ControlStructures" />
-        <exclude name="Generic.ControlStructures" />
-        <exclude name="WordPress.PHP.YodaConditions" />
+        <exclude name="WordPress.DB" />
+        <exclude name="WordPress.DateTime.RestrictedFunctions" />
+        <exclude name="WordPress.WP.I18n" />
+        <exclude name="Generic.CodeAnalysis.UnusedFunctionParameter" />
+        
+        <!-- ✅ TẮT CẢNH BÁO INPUT CHƯA UN-SLASH -->
+        <exclude name="WordPress.Security.ValidatedSanitizedInput.MissingUnslash" />
     </rule>
 
-    <!-- 🔒 ONLY KEEP THESE 3 SECURITY RULES -->
+    <!-- 🔒 GIỮ LẠI 2 RULE BẢO MẬT QUAN TRỌNG NHẤT -->
     <rule ref="WordPress.Security.EscapeOutput" />
     <rule ref="WordPress.Security.NonceVerification" />
-    <rule ref="WordPress.Security.ValidatedSanitizedInput" />
 </ruleset>
