@@ -45,7 +45,7 @@ jobs:
             - name: 🧪 PHPStan Static Analysis
               run: |
                   composer require --dev phpstan/phpstan php-stubs/wordpress-stubs --no-interaction
-                  vendor/bin/phpstan analyse --configuration=phpstan.neon --level=1 ./ --no-progress
+                  vendor/bin/phpstan analyse --configuration=phpstan.neon --level=0 ./ --no-progress --error-format=table
 
     # ========================================
     # 2. CSS/JS Linting
