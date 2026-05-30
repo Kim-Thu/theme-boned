@@ -1,3 +1,4 @@
+<?php
 /**
  * Modern Architect Theme
  *

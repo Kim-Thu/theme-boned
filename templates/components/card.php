@@ -90,7 +90,7 @@ $allowed_html = [
                 <a 
                     href="<?php echo $safe_link_url; ?>" 
                     class="btn btn--primary btn--sm card__button"
-                    aria-label="<?php printf esc_attr__('Read more about %s', 'modern-architect', $safe_title); ?>"
+                    aria-label="<?php echo esc_attr(sprintf(__('Read more about %s', 'modern-architect'), $safe_title)); ?>"
                 >
                     <?php echo esc_html($args['button_text']); ?>
                 </a>
