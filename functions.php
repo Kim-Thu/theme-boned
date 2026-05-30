@@ -37,16 +37,16 @@ define('MODERN_ARCHITECT_URI', get_template_directory_uri());
  * Namespace prefix: ModernArchitect\
  * Base directory: /inc/
  */
-spl_autoload_register(function (string $class): void {
+spl_autoload_register(function (string $className): void {
     $prefix = 'ModernArchitect\\';
     $base_dir = MODERN_ARCHITECT_DIR . '/inc/';
     
     $len = strlen($prefix);
-    if (strncmp($prefix, $class, $len) !== 0) {
+    if (strncmp($prefix, $className, $len) !== 0) {
         return;
     }
     
-    $relative_class = substr($class, $len);
+    $relative_class = substr($className, $len);
     $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
     
     if (file_exists($file)) {
