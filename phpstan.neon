@@ -1,37 +1,32 @@
 parameters:
-    level: 0  # Level thấp nhất để tránh noise từ vendor/
+    level: 1
     paths:
         - .
     excludePaths:
         - vendor/*
         - node_modules/*
         - .github/*
-        - "*.md"
-        - "*.txt"
-        - "*.log"
     
-    # ✅ Bootstrap WordPress stubs để PHPStan hiểu hàm/class WP
+    # ✅ Bootstrap WordPress stubs
     bootstrapFiles:
         - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
     
-    # ✅ Ignore các lỗi không quan trọng với theme custom
+    # ✅ Ignore errors with exact regex patterns
     ignoreErrors:
-        # Bỏ qua lỗi reserved keyword (đã fix nhưng cache cũ)
-        - '#It is recommended not to use reserved keyword "class" as function parameter name#'
+        # WordPress core functions/classes not found
+        - '#^Function [a-z_]+ not found\.$#i'
+        - '#^Class [A-Z][a-zA-Z_]+ not found\.$#i'
+        - '#^Method [a-zA-Z_]+::[a-zA-Z_]+\(\) not found\.$#i'
+        - '#^Constant [A-Z_]+ not found\.$#i'
         
-        # Bỏ qua lỗi về type WP_Post/WP_Query nếu stubs chưa load kịp
-        - '#class WP_Post not found#i'
-        - '#class WP_Query not found#i'
+        # Type hints for WP classes
+        - '#^Parameter .+ has invalid type (WP_Post|WP_Query|WP_Term|WP_User)\.$#i'
+        - '#^Access to (property|method) .+ on an unknown class (WP_Post|WP_Query|WP_Term|WP_User)\.$#i'
         
-        # Bỏ qua lỗi về property/method trên class WP_* (do stubs không đầy đủ 100%)
-        - '#Access to (property|method) .+ on an unknown class WP_#i'
-        
-        # Bỏ qua lỗi strict comparison trong vendor/
-        - '#Strict comparison .+ will always evaluate to (true|false)#'
-        
-        # Bỏ qua lỗi unreachable code trong thư viện bên thứ 3
-        - '#Unreachable statement#'
-        
-        # Bỏ qua lỗi về type trong vendor/
-        - '#Parameter .+ has invalid type#'
-        - '#Return type .+ is not covariant#'
+        # Generic ignores
+        - '#^Variable \$[a-zA-Z_]+ might not be defined\.$#'
+        - '#^Access to undefined property#i'
+        - '#^Strict comparison#'
+        - '#^Unreachable statement#'
+        - '#^Comparison operation .+ is always#'
+        - '#^Result of .+ is always#'

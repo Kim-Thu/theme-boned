@@ -5,13 +5,11 @@
     <arg name="extensions" value="php"/>
     <arg name="colors"/>
     
-    <!-- Exclude vendor/node_modules -->
     <exclude-pattern>*/vendor/*</exclude-pattern>
     <exclude-pattern>*/node_modules/*</exclude-pattern>
 
-    <!-- Load WordPress standard but disable 99.9% of it -->
     <rule ref="WordPress">
-        <!-- 🔥 TẮT TOÀN BỘ WHITESPACE/INDENTATION -->
+        <!-- 🔥 WHITESPACE/INDENTATION -->
         <exclude name="Generic.WhiteSpace"/>
         <exclude name="Squiz.WhiteSpace"/>
         <exclude name="WordPress.WhiteSpace"/>
@@ -19,24 +17,30 @@
         <exclude name="Universal.WhiteSpace"/>
         <exclude name="PSR2.ControlStructures.ControlStructureSpacing"/>
         
-        <!-- 🔥 TẮT rule về dấu ngoặc & function call -->
-        <exclude name="PEAR.Functions.FunctionCallSignature"/>
+        <!-- 🔥 FUNCTION CALL SIGNATURE (exclude từng sub-rule) -->
+        <exclude name="PEAR.Functions.FunctionCallSignature.SpaceAfterOpenBracket"/>
+        <exclude name="PEAR.Functions.FunctionCallSignature.SpaceBeforeCloseBracket"/>
+        <exclude name="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket"/>
+        <exclude name="PEAR.Functions.FunctionCallSignature.CloseBracketLine"/>
+        <exclude name="PEAR.Functions.FunctionCallSignature.MultipleArguments"/>
+        <exclude name="PEAR.Functions.FunctionCallSignature.OpeningIndent"/>
+        <exclude name="PEAR.Functions.FunctionCallSignature.Indent"/>
         <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing"/>
         <exclude name="Squiz.Functions.MultiLineFunctionDeclaration"/>
         
-        <!-- 🔥 TẮT rule về vị trí dấu { } -->
+        <!-- 🔥 BRACE POSITION -->
         <exclude name="Generic.Classes.OpeningBraceSameLine"/>
         <exclude name="Generic.Functions.OpeningFunctionBraceKernighanRitchie"/>
         <exclude name="PSR2.Methods.FunctionClosingBrace"/>
         <exclude name="Squiz.ControlStructures.ControlSignature"/>
         
-        <!-- 🔥 TẮT rule về array syntax & alignment -->
+        <!-- 🔥 ARRAY SYNTAX -->
         <exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
         <exclude name="NormalizedArrays.Arrays"/>
         <exclude name="WordPress.Arrays"/>
         <exclude name="Generic.Formatting.MultipleStatementAlignment"/>
         
-        <!-- 🔥 TẮT rule về naming & comment -->
+        <!-- 🔥 NAMING & COMMENT -->
         <exclude name="WordPress.NamingConventions"/>
         <exclude name="WordPress.Files.FileName"/>
         <exclude name="Squiz.Commenting"/>
@@ -48,13 +52,12 @@
         <exclude name="WordPress.DateTime"/>
         <exclude name="WordPress.DB"/>
         
-        <!-- 🔥 QUAN TRỌNG: Cho phép output biến đã escape trước đó -->
-        <!-- Fix lỗi giả: "found '$safe_image_url'" -->
+        <!-- 🔥 OUTPUT ESCAPING (allow pre-escaped vars) -->
         <exclude name="WordPress.Security.EscapeOutput.OutputNotEscaped"/>
         <exclude name="WordPress.Security.ValidatedSanitizedInput.MissingUnslash"/>
     </rule>
 
-    <!-- 🔒 CHỈ GIỮ LẠI 2 RULE BẢO MẬT QUAN TRỌNG NHẤT -->
+    <!-- 🔒 ONLY 2 CRITICAL SECURITY RULES -->
     <rule ref="WordPress.Security.EscapeOutput"/>
     <rule ref="WordPress.Security.NonceVerification"/>
 </ruleset>
